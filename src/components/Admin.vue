@@ -2,10 +2,10 @@
   <div class="admin-container">
     <h1>Admin Panel</h1>
 
-    <!-- Button to Open Modal -->
+    
     <button @click="showModal = true" class="add-ticket-btn">Add Ticket</button>
 
-    <!-- Ticket Table -->
+    
     <table>
       <thead>
         <tr>
@@ -29,12 +29,12 @@
           </td>
         </tr>
         <tr v-if= "!ticketStore.tickets.length">
-          <td colspan="6">No data Available</td>
+          <td colspan="6" style="text-align: center;">No data Available</td>
         </tr>
       </tbody>
     </table>
 
-    <!-- Modal -->
+    
     <div v-if="showModal" class="modal">
       <div class="modal-content">
         <h2>Create New Ticket</h2>
@@ -47,7 +47,7 @@
           <textarea v-model="newTicket.description"></textarea>
 
           <label>
-            <input type="checkbox" v-model="newTicket.isVIP" />
+            <input class="isVIPSelection" type="checkbox" v-model="newTicket.isVIP" />
             VIP Ticket
           </label>
 
@@ -64,6 +64,7 @@
         </form>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -127,44 +128,128 @@ th, td {
   cursor: pointer;
 }
 
+.isVIPSelection {
+  width: 3% !important;
+}
+
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dark background */
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000; /* Ensure modal appears on top */
 }
 
+/* Modal Content Box */
 .modal-content {
-  background: white;
+  background-color: #fff;
   padding: 20px;
-  border-radius: 5px;
-  width: 300px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease-in-out;
 }
 
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Heading */
+.modal-content h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Form Labels */
+.modal-content label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #444;
+}
+
+/* Form Inputs and Textarea */
+.modal-content input, .modal-content textarea {
+  width: 60%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #333;
+}
+
+/* Textarea Specific Styling */
+.modal-content textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Checkbox Styling */
+.modal-content label input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+/* Action Buttons */
 .modal-actions {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
+}
+
+.modal-actions button {
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
 }
 
 .add-btn {
-  background: blue;
+  background-color: #4CAF50;
   color: white;
-  padding: 5px;
-  border: none;
-  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-btn:hover {
+  background-color: #45a049;
 }
 
 .cancel-btn {
-  background: gray;
+  background-color: #f44336;
   color: white;
-  padding: 5px;
-  border: none;
-  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cancel-btn:hover {
+  background-color: #e53935;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  .modal-content {
+    padding: 15px;
+  }
+
+  .modal-content h2 {
+    font-size: 20px;
+  }
+
+  .modal-actions button {
+    font-size: 14px;
+  }
 }
 </style>

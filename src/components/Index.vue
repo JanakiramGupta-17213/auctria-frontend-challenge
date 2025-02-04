@@ -3,9 +3,9 @@
     <h1>Available Tickets</h1>
 
     <div class="ticket-grid">
-      <div 
-        v-for="ticket in ticketStore.tickets" 
-        :key="ticket.id" 
+      <div
+        v-for="ticket in ticketStore.tickets"
+        :key="ticket.id"
         class="ticket-card"
         :class="{ vip: ticket.isVIP }"
       >
@@ -18,7 +18,30 @@
         <p><strong>Available:</strong> {{ ticket.count }}</p>
         <p><strong>Price:</strong> ${{ ticket.price.toFixed(2) }}</p>
 
-        <button @click="cartStore.addToCart(ticket)" class="add-to-cart-btn">
+        <div
+          v-if="cartStore.getItemQuantity(ticket.id) > 0"
+          class="quantity-controls"
+        >
+          <button
+            v-if="cartStore.getItemQuantity(ticket.id) > 0"
+            @click="cartStore.decreaseQuantity(ticket.id)"
+          >
+            ➖
+          </button>
+          <span>{{ cartStore.getItemQuantity(ticket.id) }}</span>
+          <button
+            v-if="cartStore.getItemQuantity(ticket.id) < ticket.count"
+            @click="cartStore.addToCart(ticket)"
+          >
+            ➕
+          </button>
+        </div>
+
+        <button
+          v-else
+          @click="cartStore.addToCart(ticket)"
+          class="add-to-cart-btn"
+        >
           Add to Cart
         </button>
       </div>
@@ -95,6 +118,28 @@ const cartStore = useCartStore();
 }
 
 .add-to-cart-btn:hover {
+  background: #0056b3;
+}
+
+.quantity-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.quantity-controls button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1.2em;
+}
+
+.quantity-controls button:hover {
   background: #0056b3;
 }
 </style>
